@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Proveedores y Personal Externo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 1200px;
+            min-height: 600px;
+            padding: 40px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .slide::-webkit-scrollbar {
+        width: 8px;
+        }
+
+        .slide::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .slide::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .slide::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .slide h2 {
+            color: #2d3748;
+            font-size: 2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .slide h3 {
+            color: #4a5568;
+            font-size: 1.4em;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .slide ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .slide li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .architecture-diagram {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .architecture-layer {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #f0fff4, #dcfce7);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #22c55e;
+            min-width: 150px;
+        }
+
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cost-table th,
+        .cost-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cost-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .cost-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+            margin: 20px 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .benefit-item {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #10b981;
+        }
+
+        .benefit-amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #065f46;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">12</span>
+        </div>
+
+        <!-- Slide 1: Título -->
+        <div class="slide active">
+            <h1>Sistema de Gestión de Proveedores y Personal Externo</h1>
+            <div style="text-align: center; margin: 50px 0;">
+                <div style="font-size: 1.3em; color: #4a5568; margin-bottom: 30px;">
+                    Requerimientos Funcionales y No Funcionales
+                </div>
+                <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 30px; border-radius: 15px; border-left: 5px solid #0ea5e9;">
+                    <p style="font-size: 1.2em; line-height: 1.6;">
+                        Implementación de un sistema integral para el registro, gestión y control de acceso de proveedores y personal externo, 
+                        abordando aspectos de seguridad, documentación y administración.
+                    </p>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h4>🏢 Registro de Proveedores</h4>
+                    <p>Gestión completa de empresas y visitantes</p>
+                </div>
+                <div class="card">
+                    <h4>📅 Programación de Visitas</h4>
+                    <p>Control de agenda y notificaciones</p>
+                </div>
+                <div class="card">
+                    <h4>🔐 Control de Acceso</h4>
+                    <p>Seguridad y validación de ingresos</p>
+                </div>
+                <div class="card">
+                    <h4>📄 Gestión Documental</h4>
+                    <p>Administración digital de certificados</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Requerimientos Funcionales - Registro -->
+        <div class="slide">
+            <h2>Registro y Gestión de Proveedores</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Registro de Empresas</h4>
+                    <ul>
+                        <li>Proveedores y empresas externas</li>
+                        <li>Asociación de visitantes a empresas</li>
+                        <li>Historial de visitas</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Registro de Visitantes</h4>
+                    <ul>
+                        <li>Datos personales (nombre, cédula)</li>
+                        <li>Información laboral (empresa, cargo)</li>
+                        <li>Datos de contacto</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Documentación Requerida por Visitante</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>📋 Documentos Básicos</h4>
+                    <ul>
+                        <li>Cédula/RUT</li>
+                        <li>Certificados de ARL, EPS</li>
+                        <li>Carné de vacunación (si aplica)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🎓 Certificaciones</h4>
+                    <ul>
+                        <li>Trabajo en altura</li>
+                        <li>Montacarga</li>
+                        <li>Otros certificados de capacitación</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>📝 Documentos Legales</h4>
+                    <ul>
+                        <li>Contratos</li>
+                        <li>Cartas de responsabilidad</li>
+                        <li>Fechas de vencimiento</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Programación de Visitas -->
+        <div class="slide">
+            <h2>Programación de Visitas y Control de Acceso</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>📅 Agenda de Visitas</h4>
+                    <ul>
+                        <li>Fecha y hora de visita</li>
+                        <li>Motivo de la visita</li>
+                        <li>Área específica a visitar</li>
+                        <li>Pre-aprobación automática</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🔔 Notificaciones</h4>
+                    <ul>
+                        <li>Alertas a áreas involucradas</li>
+                        <li>Notificación a seguridad y recepción</li>
+                        <li>Avisos de documentación vencida</li>
+                        <li>Confirmación a responsables internos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Control de Acceso y Seguridad</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>🎫 Pase de Ingreso</h4>
+                    <ul>
+                        <li>Generación de código QR</li>
+                        <li>Pase digital</li>
+                        <li>Validación en portería</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>📍 Registro de Movimientos</h4>
+                    <ul>
+                        <li>Control de entrada/salida</li>
+                        <li>Lector de cédula o QR</li>
+                        <li>Registro fotográfico opcional</li>
+                        <li>Firma digital del visitante</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h4>✅ Validación Automática</h4>
+                <p>El sistema valida automáticamente que todos los documentos estén vigentes antes de aprobar cualquier visita, garantizando el cumplimiento de requisitos de seguridad.</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Administración y Reportes -->
+        <div class="slide">
+            <h2>Administración Documental y Reportes</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>📁 Repositorio Digital</h4>
+                    <ul>
+                        <li>Almacenamiento por visitante</li>
+                        <li>Validación automática de vencimiento</li>
+                        <li>Estados: Aprobado/Rechazado/Pendiente</li>
+                        <li>Observaciones de seguridad</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>⚠️ Alertas Automáticas</h4>
+                    <ul>
+                        <li>Documentación vencida</li>
+                        <li>Documentos por vencer</li>
+                        <li>Notificaciones a proveedores</li>
+                        <li>Alertas con X días de anticipación</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Reportes y Dashboard</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>📊 Reportes de Visitas</h4>
+                    <ul>
+                        <li>Visitas por día, semana, mes</li>
+                        <li>Control de tiempo de ingreso</li>
+                        <li>Proveedores más recurrentes</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>📋 Reportes Documentales</h4>
+                    <ul>
+                        <li>Documentos vencidos</li>
+                        <li>Documentos por vencer</li>
+                        <li>Estado de documentación por proveedor</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Roles y Permisos del Sistema</h3>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Administrador</div>
+                    <div>Gestiona todo el sistema</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Seguridad/Portería</div>
+                    <div>Consulta y registra ingresos</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Coordinador</div>
+                    <div>Programa visitas</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Proveedor</div>
+                    <div>Gestiona documentación</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Auditoría</div>
+                    <div>Lectura de registros</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Requerimientos No Funcionales -->
+        <div class="slide">
+            <h2>Requerimientos No Funcionales</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>🔒 Seguridad</h4>
+                    <ul>
+                        <li>Autenticación segura (2FA opcional)</li>
+                        <li>Encriptación de documentos sensibles</li>
+                        <li>Backups automáticos</li>
+                        <li>Logs y bitácoras de acceso</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🎨 Usabilidad</h4>
+                    <ul>
+                        <li>Interfaz web responsive</li>
+                        <li>Diseño intuitivo</li>
+                        <li>Estados claros del sistema</li>
+                        <li>Multilenguaje (español/inglés)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h4>⚡ Rendimiento</h4>
+                    <ul>
+                        <li>Carga de información &lt; 3 segundos</li>
+                        <li>Soporte para múltiples usuarios concurrentes</li>
+                        <li>Sin degradación de performance</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🔗 Integraciones</h4>
+                    <ul>
+                        <li>Sistemas de control de acceso físico</li>
+                        <li>Active Directory</li>
+                        <li>Sistemas ERP existentes</li>
+                        <li>Lectores de QR y torniquetes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h4>📈 Escalabilidad y Mantenimiento</h4>
+                <ul>
+                    <li>Arquitectura modular para nuevas validaciones</li>
+                    <li>Panel administrativo configurable</li>
+                    <li>Capacidad de agregar nuevos tipos de documentos</li>
+                    <li>Modificación dinámica de campos requeridos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 6: Stack Tecnológico -->
+        <div class="slide">
+            <h2>Stack Tecnológico Propuesto</h2>
+            
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>Frontend</h4>
+                    <p><strong>React</strong></p>
+                    <p>Hospedaje: AWS/Azure</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Backend</h4>
+                    <p><strong>C# ASP.NET Core</strong></p>
+                    <p>Web API</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Base de Datos</h4>
+                    <p><strong>MongoDB</strong></p>
+                    <p>NoSQL (AWS/Azure)</p>
+                </div>
+            </div>
+
+            <h3>Ventajas de MongoDB (NoSQL)</h3>
+            <div class="grid">
+                <div class="card" style="border-left-color: #22c55e;">
+                    <h4>✅ Ventajas</h4>
+                    <ul>
+                        <li>Fácil adición de nuevos servicios</li>
+                        <li>Manejo de datos masivos y no estructurados</li>
+                        <li>Estructura flexible y escalable</li>
+                        <li>Soporte para JSON, XML, multimedia</li>
+                        <li>Alta performance y escalabilidad</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left-color: #f59e0b;">
+                    <h4>⚠️ Consideraciones</h4>
+                    <ul>
+                        <li>No maneja claves foráneas</li>
+                        <li>Requiere cuidado especial en estructura</li>
+                        <li>Validación de datos a nivel aplicación</li>
+                        <li>Mayor responsabilidad en integridad</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h4>🌐 Arquitectura de Conexión</h4>
+                <p>Sistema público conectado a red corporativa mediante túnel seguro (Cloudflare Tunnel o Azure Relay), garantizando acceso externo seguro sin comprometer la infraestructura interna.</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Arquitectura del Sistema -->
+        <div class="slide">
+            <h2>Arquitectura del Sistema</h2>
+            
+            <div class="architecture-diagram">
+                <h3>Flujo de Datos y Comunicación</h3>
+                <div class="architecture-layer" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+                    <strong>Proveedor externo - Red libre</strong>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">⬇️ HTTPS requests</div>
+                <div class="architecture-layer" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+                    <strong>React App - Pública (AWS, Azure)</strong>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">⬇️ Túnel seguro</div>
+                <div class="architecture-layer" style="background: linear-gradient(135deg, #f3e8ff, #e9d5ff);">
+                    <strong>Cloudflare Tunnel o Azure Relay</strong>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">⬇️ API calls</div>
+                <div class="architecture-layer" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
+                    <strong>C# API .NET Core</strong>
+                </div>
+                <div style="text-align: center; margin: 10px 0;">⬇️ Data queries</div>
+                <div class="architecture-layer" style="background: linear-gradient(135deg, #fef2f2, #fecaca);">
+                    <strong>MongoDB</strong>
+                </div>
+            </div>
+
+            <h3>Componentes del Sistema</h3>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Red libre</div>
+                    <div>Acceso público inicial</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Frontend público</div>
+                    <div>Interfaz en la nube</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Túnel seguro</div>
+                    <div>Comunicación protegida</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">API Backend</div>
+                    <div>Procesamiento de datos</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Base NoSQL</div>
+                    <div>Almacenamiento flexible</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Estrategia de Seguridad -->
+        <div class="slide">
+            <h2>Estrategia de Seguridad Integral</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>🔐 Autenticación</h4>
+                    <ul>
+                        <li>Tokens JWT</li>
+                        <li>Autenticación de dos factores (2FA)</li>
+                        <li>Middleware de verificación de permisos</li>
+                        <li>Gestión de sesiones seguras</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🛡️ Protección de Datos</h4>
+                    <ul>
+                        <li>HTTPS obligatorio en toda la ruta</li>
+                        <li>Encriptación de documentos sensibles</li>
+                        <li>Validación de IP y firma digital</li>
+                        <li>Protección contra inyección SQL</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h4>📊 Monitoreo y Auditoría</h4>
+                    <ul>
+                        <li>Logs y bitácoras completos</li>
+                        <li>Registro de cada acceso y modificación</li>
+                        <li>Alertas de actividad sospechosa</li>
+                        <li>Trazabilidad completa de operaciones</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🤖 Protección Automatizada</h4>
+                    <ul>
+                        <li>Verificación anti-bots</li>
+                        <li>Validación doble (frontend/backend)</li>
+                        <li>Backups automáticos</li>
+                        <li>Recuperación ante desastres</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h4>🎯 Enfoque de Seguridad Multicapa</h4>
+                <p>Implementación de múltiples capas de seguridad que van desde la autenticación del usuario hasta la protección de datos en tránsito y en reposo, garantizando la máxima protección de la información sensible.</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Marco Económico - Versión Inicial -->
+        <div class="slide">
+            <h2>Marco Económico - Versión Inicial</h2>
+            
+            <h3>Infraestructura y Servicios (Costos Anuales)</h3>
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <td>Monitoreo</td>
+                        <td>$0</td>
+                        <td>$0</td>
+                        <td>UptimeRobot gratuito</td>
+                    </tr>
+                    <tr style="background: #f0f9ff; font-weight: bold;">
+                        <td><strong>TOTAL MENSUAL</strong></td>
+                        <td><strong>$4</strong></td>
+                        <td><strong>$48</strong></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight">
+                <h4>💡 Ventaja Económica Inicial</h4>
+                <p>La versión inicial aprovecha planes gratuitos de servicios en la nube, manteniendo costos mínimos mientras se valida el sistema. Total anual de solo <strong>$48 USD</strong>.</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Marco Económico - Versión Final -->
+        <div class="slide">
+            <h2>Marco Económico - Versión Final (Producción)</h2>
+            
+            <h3>Comparativa de Proveedores Cloud</h3>
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>Proveedor Elegido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Frontend Hosting</td>
+                        <td>$5 (Amplify)</td>
+                        <td>$0 (Static Web Apps)</td>
+                        <td>Azure: $0 ✅</td>
+                    </tr>
+                    <tr>
+                        <td>API Backend (.NET)</td>
+                        <td>$25 (Elastic Beanstalk)</td>
+                        <td>$18 (App Service B1)</td>
+                        <td>Azure: $18 ✅</td>
+                    </tr>
+                    <tr>
+                        <td>MongoDB Atlas M10</td>
+                        <td>$57</td>
+                        <td>$57</td>
+                        <td>MongoDB M10: $57</td>
+                    </tr>
+                    <tr>
+                        <td>Storage & Backup</td>
+                        <td>$8 (S3 + backup)</td>
+                        <td>$6 (Blob + backup)</td>
+                        <td>Azure: $6 ✅</td>
+                    </tr>
+                    <tr>
+                        <td>SSL & CDN</td>
+                        <td>$0</td>
+                        <td>$0</td>
+                        <td>Azure incluido</td>
+                    </tr>
+                    <tr style="background: #f0f9ff; font-weight: bold;">
+                        <td><strong>TOTAL MENSUAL</strong></td>
+                        <td><strong>$95</strong></td>
+                        <td><strong>$81</strong></td>
+                        <td><strong>$81/mes ✅</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Inversión Total Año 1 (Solo Infraestructura)</h3>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-amount">$36</div>
+                    <div>Setup inicial</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-amount">$972</div>
+                    <div>Infraestructura (12 meses)</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-amount">$48</div>
+                    <div>Operativos anuales</div>
+                </div>
+                <div class="benefit-item" style="border-color: #dc2626; background: linear-gradient(135deg, #fef2f2, #fecaca);">
+                    <div class="benefit-amount" style="color: #dc2626;">$1,056</div>
+                    <div><strong>TOTAL AÑO 1</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Análisis de Beneficios -->
+        <div class="slide">
+            <h2>Análisis de Beneficios Económicos</h2>
+            
+            <h3>Ahorros Anuales Estimados</h3>
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Ahorro Anual USD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Reducción tiempo administrativo</td>
+                        <td>$4,800</td>
+                    </tr>
+                    <tr>
+                        <td>Eliminación papelería y archivo físico</td>
+                        <td>$600</td>
+                    </tr>
+                    <tr>
+                        <td>Reducción errores documentales</td>
+                        <td>$1,200</td>
+                    </tr>
+                    <tr>
+                        <td>Optimización procesos portería</td>
+                        <td>$2,400</td>
+                    </tr>
+                    <tr>
+                        <td>Reducción multas/sanciones SST</td>
+                        <td>$1,500</td>
+                    </tr>
+                    <tr style="background: #ecfdf5; font-weight: bold;">
+                        <td><strong>TOTAL AHORROS</strong></td>
+                        <td><strong>$10,500</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight">
+                <h4>💰 Retorno de Inversión (ROI)</h4>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Inversión Año 1</h4>
+                        <p style="font-size: 1.5em; color: #dc2626; font-weight: bold;">$1,056</p>
+                    </div>
+                    <div class="card">
+                        <h4>Ahorros Anuales</h4>
+                        <p style="font-size: 1.5em; color: #059669; font-weight: bold;">$10,500</p>
+                    </div>
+                    <div class="card" style="border-left-color: #059669; background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
+                        <h4>ROI</h4>
+                        <p style="font-size: 1.5em; color: #059669; font-weight: bold;">894%</p>
+                        <p>Recuperación en 1.2 meses</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">⏱️ Eficiencia</div>
+                    <div>Automatización de procesos manuales</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">📋 Cumplimiento</div>
+                    <div>Reducción de riesgos regulatorios</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">🔍 Trazabilidad</div>
+                    <div>Control total de visitantes</div>
+                </div>
+                <div class="benefit-item">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">🌱 Sostenibilidad</div>
+                    <div>Eliminación de papel</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Conclusiones y Próximos Pasos -->
+        <div class="slide">
+            <h2>Conclusiones y Próximos Pasos</h2>
+            
+            <div class="grid">
+                <div class="card" style="border-left-color: #059669;">
+                    <h4>✅ Beneficios Clave</h4>
+                    <ul>
+                        <li>Automatización completa del proceso</li>                        
+                        <li>Reducción significativa de riesgos</li>
+                        <li>Mejor experiencia para proveedores</li>
+                        <li>Cumplimiento regulatorio automático</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left-color: #0ea5e9;">
+                    <h4>🏗️ Arquitectura Robusta</h4>
+                    <ul>
+                        <li>Tecnologías modernas y escalables</li>
+                        <li>Seguridad multicapa</li>
+                        <li>Base de datos NoSQL flexible</li>
+                        <li>Infraestructura en la nube</li>
+                        <li>Acceso seguro desde internet</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Plan de Implementación Sugerido</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Fase 1: Desarrollo (12-20 semanas)</h4>
+                    <ul>
+                        <li>Desarrollo del MVP</li>
+                        <li>Configuración de infraestructura</li>
+                        <li>Pruebas de seguridad</li>
+                        <li>Integración básica</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Fase 2: Piloto (4 semanas)</h4>
+                    <ul>
+                        <li>Implementación con proveedores selectos</li>
+                        <li>Capacitación de usuarios</li>
+                        <li>Ajustes y mejoras</li>
+                        <li>Validación de procesos</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Fase 3: Despliegue (4 semanas)</h4>
+                    <ul>
+                        <li>Rollout completo</li>
+                        <li>Migración de datos existentes</li>
+                        <li>Capacitación masiva</li>
+                        <li>Soporte post-implementación</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h4>🎯 Recomendación</h4>
+                <p>Lo ideal no es iniciar con la inversión, ya que hay muchas opciones para iniciar de manera gratuita, incluido el plan piloto y despliegue, aclarar que no se requiere información confidencial de la empresa, solo se requiere documentación del proveedor.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Siguiente →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) {
+            if (direction === 1 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else if (direction === -1 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            }
+        });
+        
+        showSlide(0);
+    </script>
+</body>
