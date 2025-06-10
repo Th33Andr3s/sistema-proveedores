@@ -24,6 +24,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            padding: 10px;
         }
 
         .slide {
@@ -32,18 +33,19 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 90%;
+            width: 100%;
             max-width: 1200px;
-            min-height: 600px;
-            padding: 40px;
+            max-height: 85vh;
+            padding: 20px;
             display: none;
             animation: slideIn 0.5s ease-out;
             overflow-y: auto;
-            padding-right: 10px;
+            overflow-x: hidden;
         }
 
+        /* Scrollbar personalizada */
         .slide::-webkit-scrollbar {
-        width: 8px;
+            width: 8px;
         }
 
         .slide::-webkit-scrollbar-track {
@@ -69,38 +71,42 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Tipografía responsive */
         .slide h1 {
             color: #4a5568;
-            font-size: 2.5em;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             margin-bottom: 20px;
             text-align: center;
             font-weight: 300;
+            line-height: 1.2;
         }
 
         .slide h2 {
             color: #2d3748;
-            font-size: 2em;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             margin-bottom: 25px;
             border-bottom: 3px solid #667eea;
             padding-bottom: 10px;
+            line-height: 1.2;
         }
 
         .slide h3 {
             color: #4a5568;
-            font-size: 1.4em;
+            font-size: clamp(1.2rem, 2.5vw, 1.4rem);
             margin: 20px 0 15px 0;
             font-weight: 600;
+            line-height: 1.3;
         }
 
         .slide p, .slide li {
-            font-size: 1.1em;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             line-height: 1.6;
             margin-bottom: 10px;
             color: #2d3748;
         }
 
         .slide ul {
-            margin-left: 20px;
+            margin-left: 15px;
             margin-bottom: 20px;
         }
 
@@ -108,20 +114,22 @@
             margin-bottom: 8px;
         }
 
+        /* Grid responsive */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: 15px;
             margin: 20px 0;
         }
 
         .card {
             background: linear-gradient(135deg, #f7fafc, #edf2f7);
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
             border-left: 5px solid #667eea;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease;
+            word-wrap: break-word;
         }
 
         .card:hover {
@@ -131,24 +139,27 @@
         .card h4 {
             color: #2d3748;
             margin-bottom: 10px;
-            font-size: 1.2em;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.3;
         }
 
+        /* Navegación responsive */
         .navigation {
             position: fixed;
-            bottom: 30px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 10px;
             z-index: 1000;
+            padding: 0 15px;
         }
 
         .nav-btn {
             background: rgba(255, 255, 255, 0.9);
             border: none;
             border-radius: 50px;
-            padding: 12px 20px;
+            padding: 8px 16px;
             cursor: pointer;
             font-weight: 600;
             color: #4a5568;
@@ -156,6 +167,8 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            white-space: nowrap;
         }
 
         .nav-btn:hover {
@@ -169,19 +182,23 @@
             cursor: not-allowed;
         }
 
+        /* Contador de slides responsive */
         .slide-counter {
             position: fixed;
-            top: 30px;
-            right: 30px;
+            top: 15px;
+            right: 15px;
             background: rgba(255, 255, 255, 0.9);
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 50px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             font-weight: 600;
             color: #4a5568;
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            z-index: 1000;
         }
 
+        /* Arquitectura responsive */
         .architecture-diagram {
             text-align: center;
             margin: 30px 0;
@@ -190,17 +207,18 @@
         .architecture-layer {
             background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
             margin: 10px 0;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             border-left: 4px solid #667eea;
             font-weight: 600;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
         }
 
+        /* Stack tecnológico responsive */
         .tech-stack {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+            gap: 15px;
             margin: 20px 0;
         }
 
@@ -210,9 +228,10 @@
             border-radius: 10px;
             text-align: center;
             border: 2px solid #22c55e;
-            min-width: 150px;
+            word-wrap: break-word;
         }
 
+        /* Tabla responsive */
         .cost-table {
             width: 100%;
             border-collapse: collapse;
@@ -221,13 +240,15 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
         }
 
         .cost-table th,
         .cost-table td {
-            padding: 12px;
+            padding: 8px;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
+            word-wrap: break-word;
         }
 
         .cost-table th {
@@ -240,33 +261,123 @@
             background: #f7fafc;
         }
 
+        /* Highlight responsive */
         .highlight {
             background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             border-left: 4px solid #f59e0b;
             margin: 20px 0;
         }
 
+        /* Grid de beneficios responsive */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+            gap: 12px;
             margin: 20px 0;
         }
 
         .benefit-item {
             background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             text-align: center;
             border: 2px solid #10b981;
+            word-wrap: break-word;
         }
 
         .benefit-amount {
-            font-size: 1.5em;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: bold;
             color: #065f46;
+        }
+
+        /* Media queries específicas */
+        @media (max-width: 768px) {
+            .presentation-container {
+                padding: 5px;
+            }
+
+            .slide {
+                padding: 15px;
+                max-height: 90vh;
+                border-radius: 15px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+            }
+
+            .cost-table th,
+            .cost-table td {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+
+            .navigation {
+                bottom: 10px;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 6px 12px;
+            }
+
+            .slide-counter {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 12px;
+                border-radius: 10px;
+            }
+
+            .card {
+                padding: 12px;
+            }
+
+            .highlight {
+                padding: 12px;
+            }
+
+            .architecture-layer {
+                padding: 10px;
+            }
+
+            .tech-item, .benefit-item {
+                padding: 10px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Tabla responsive con scroll horizontal en móviles */
+        @media (max-width: 600px) {
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .cost-table {
+                min-width: 400px;
+            }
         }
     </style>
 </head>
@@ -280,11 +391,11 @@
         <div class="slide active">
             <h1>Sistema de Gestión de Proveedores y Personal Externo</h1>
             <div style="text-align: center; margin: 50px 0;">
-                <div style="font-size: 1.3em; color: #4a5568; margin-bottom: 30px;">
+                <div style="font-size: clamp(1rem, 2.5vw, 1.3rem); color: #4a5568; margin-bottom: 30px;">
                     Requerimientos Funcionales y No Funcionales
                 </div>
-                <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 30px; border-radius: 15px; border-left: 5px solid #0ea5e9;">
-                    <p style="font-size: 1.2em; line-height: 1.6;">
+                <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 15px; border-left: 5px solid #0ea5e9;">
+                    <p style="font-size: clamp(0.9rem, 2vw, 1.2rem); line-height: 1.6;">
                         Implementación de un sistema integral para el registro, gestión y control de acceso de proveedores y personal externo, 
                         abordando aspectos de seguridad, documentación y administración.
                     </p>
@@ -461,23 +572,23 @@
             <h3>Roles y Permisos del Sistema</h3>
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Administrador</div>
+                    <div style="font-size: clamp(1rem, 2vw, 1.2rem); font-weight: bold; color: #065f46;">Administrador</div>
                     <div>Gestiona todo el sistema</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Seguridad/Portería</div>
+                    <div style="font-size: clamp(1rem, 2vw, 1.2rem); font-weight: bold; color: #065f46;">Seguridad/Portería</div>
                     <div>Consulta y registra ingresos</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Coordinador</div>
+                    <div style="font-size: clamp(1rem, 2vw, 1.2rem); font-weight: bold; color: #065f46;">Coordinador</div>
                     <div>Programa visitas</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Proveedor</div>
+                    <div style="font-size: clamp(1rem, 2vw, 1.2rem); font-weight: bold; color: #065f46;">Proveedor</div>
                     <div>Gestiona documentación</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.2em; font-weight: bold; color: #065f46;">Auditoría</div>
+                    <div style="font-size: clamp(1rem, 2vw, 1.2rem); font-weight: bold; color: #065f46;">Auditoría</div>
                     <div>Lectura de registros</div>
                 </div>
             </div>
@@ -620,23 +731,23 @@
             <h3>Componentes del Sistema</h3>
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Red libre</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">Red libre</div>
                     <div>Acceso público inicial</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Frontend público</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">Frontend público</div>
                     <div>Interfaz en la nube</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Túnel seguro</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">Túnel seguro</div>
                     <div>Comunicación protegida</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">API Backend</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">API Backend</div>
                     <div>Procesamiento de datos</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">Base NoSQL</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">Base NoSQL</div>
                     <div>Almacenamiento flexible</div>
                 </div>
             </div>
@@ -699,22 +810,74 @@
             <h2>Marco Económico - Versión Inicial</h2>
             
             <h3>Infraestructura y Servicios (Costos Anuales)</h3>
-            <table class="cost-table">
-                <thead>
-                    <tr>
-                        <td>Monitoreo</td>
-                        <td>$0</td>
-                        <td>$0</td>
-                        <td>UptimeRobot gratuito</td>
-                    </tr>
-                    <tr style="background: #f0f9ff; font-weight: bold;">
-                        <td><strong>TOTAL MENSUAL</strong></td>
-                        <td><strong>$4</strong></td>
-                        <td><strong>$48</strong></td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="cost-table">
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Costo Mensual</th>
+                            <th>Costo Anual</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Frontend React</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>Azure Static Web Apps gratis</td>
+                        </tr>
+                        <tr>
+                            <td>API Backend</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>Azure App Service gratis</td>
+                        </tr>
+                        <tr>
+                            <td>MongoDB Atlas</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>Cluster M0 gratuito</td>
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>Azure Blob Storage gratis</td>
+                        </tr>
+                        <tr>
+                            <td>Dominio</td>
+                            <td>$1</td>
+                            <td>$12</td>
+                            <td>Namecheap .com</td>
+                        </tr>
+                        <tr>
+                            <td>SSL</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>Let's Encrypt gratuito</td>
+                        </tr>
+                        <tr>
+                            <td>Túnel seguro</td>
+                            <td>$3</td>
+                            <td>$36</td>
+                            <td>Cloudflare Tunnel Pro</td>
+                        </tr>
+                        <tr>
+                            <td>Monitoreo</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>UptimeRobot gratuito</td>
+                        </tr>
+                        <tr style="background: #f0f9ff; font-weight: bold;">
+                            <td><strong>TOTAL MENSUAL</strong></td>
+                            <td><strong>$4</strong></td>
+                            <td><strong>$48</strong></td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="highlight">
                 <h4>💡 Ventaja Económica Inicial</h4>
@@ -727,54 +890,56 @@
             <h2>Marco Económico - Versión Final (Producción)</h2>
             
             <h3>Comparativa de Proveedores Cloud</h3>
-            <table class="cost-table">
-                <thead>
-                    <tr>
-                        <th>Servicio</th>
-                        <th>AWS</th>
-                        <th>Azure</th>
-                        <th>Proveedor Elegido</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Frontend Hosting</td>
-                        <td>$5 (Amplify)</td>
-                        <td>$0 (Static Web Apps)</td>
-                        <td>Azure: $0 ✅</td>
-                    </tr>
-                    <tr>
-                        <td>API Backend (.NET)</td>
-                        <td>$25 (Elastic Beanstalk)</td>
-                        <td>$18 (App Service B1)</td>
-                        <td>Azure: $18 ✅</td>
-                    </tr>
-                    <tr>
-                        <td>MongoDB Atlas M10</td>
-                        <td>$57</td>
-                        <td>$57</td>
-                        <td>MongoDB M10: $57</td>
-                    </tr>
-                    <tr>
-                        <td>Storage & Backup</td>
-                        <td>$8 (S3 + backup)</td>
-                        <td>$6 (Blob + backup)</td>
-                        <td>Azure: $6 ✅</td>
-                    </tr>
-                    <tr>
-                        <td>SSL & CDN</td>
-                        <td>$0</td>
-                        <td>$0</td>
-                        <td>Azure incluido</td>
-                    </tr>
-                    <tr style="background: #f0f9ff; font-weight: bold;">
-                        <td><strong>TOTAL MENSUAL</strong></td>
-                        <td><strong>$95</strong></td>
-                        <td><strong>$81</strong></td>
-                        <td><strong>$81/mes ✅</strong></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="cost-table">
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>AWS</th>
+                            <th>Azure</th>
+                            <th>Proveedor Elegido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Frontend Hosting</td>
+                            <td>$5 (Amplify)</td>
+                            <td>$0 (Static Web Apps)</td>
+                            <td>Azure: $0 ✅</td>
+                        </tr>
+                        <tr>
+                            <td>API Backend (.NET)</td>
+                            <td>$25 (Elastic Beanstalk)</td>
+                            <td>$18 (App Service B1)</td>
+                            <td>Azure: $18 ✅</td>
+                        </tr>
+                        <tr>
+                            <td>MongoDB Atlas M10</td>
+                            <td>$57</td>
+                            <td>$57</td>
+                            <td>MongoDB M10: $57</td>
+                        </tr>
+                        <tr>
+                            <td>Storage & Backup</td>
+                            <td>$8 (S3 + backup)</td>
+                            <td>$6 (Blob + backup)</td>
+                            <td>Azure: $6 ✅</td>
+                        </tr>
+                        <tr>
+                            <td>SSL & CDN</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>Azure incluido</td>
+                        </tr>
+                        <tr style="background: #f0f9ff; font-weight: bold;">
+                            <td><strong>TOTAL MENSUAL</strong></td>
+                            <td><strong>$95</strong></td>
+                            <td><strong>$81</strong></td>
+                            <td><strong>$81/mes ✅</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <h3>Inversión Total Año 1 (Solo Infraestructura)</h3>
             <div class="benefits-grid">
@@ -802,55 +967,57 @@
             <h2>Análisis de Beneficios Económicos</h2>
             
             <h3>Ahorros Anuales Estimados</h3>
-            <table class="cost-table">
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Ahorro Anual USD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Reducción tiempo administrativo</td>
-                        <td>$4,800</td>
-                    </tr>
-                    <tr>
-                        <td>Eliminación papelería y archivo físico</td>
-                        <td>$600</td>
-                    </tr>
-                    <tr>
-                        <td>Reducción errores documentales</td>
-                        <td>$1,200</td>
-                    </tr>
-                    <tr>
-                        <td>Optimización procesos portería</td>
-                        <td>$2,400</td>
-                    </tr>
-                    <tr>
-                        <td>Reducción multas/sanciones SST</td>
-                        <td>$1,500</td>
-                    </tr>
-                    <tr style="background: #ecfdf5; font-weight: bold;">
-                        <td><strong>TOTAL AHORROS</strong></td>
-                        <td><strong>$10,500</strong></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="cost-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Ahorro Anual USD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Reducción tiempo administrativo</td>
+                            <td>$4,800</td>
+                        </tr>
+                        <tr>
+                            <td>Eliminación papelería y archivo físico</td>
+                            <td>$600</td>
+                        </tr>
+                        <tr>
+                            <td>Reducción errores documentales</td>
+                            <td>$1,200</td>
+                        </tr>
+                        <tr>
+                            <td>Optimización procesos portería</td>
+                            <td>$2,400</td>
+                        </tr>
+                        <tr>
+                            <td>Reducción multas/sanciones SST</td>
+                            <td>$1,500</td>
+                        </tr>
+                        <tr style="background: #ecfdf5; font-weight: bold;">
+                            <td><strong>TOTAL AHORROS</strong></td>
+                            <td><strong>$10,500</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="highlight">
                 <h4>💰 Retorno de Inversión (ROI)</h4>
                 <div class="grid">
                     <div class="card">
                         <h4>Inversión Año 1</h4>
-                        <p style="font-size: 1.5em; color: #dc2626; font-weight: bold;">$1,056</p>
+                        <p style="font-size: clamp(1.2rem, 3vw, 1.5rem); color: #dc2626; font-weight: bold;">$1,056</p>
                     </div>
                     <div class="card">
                         <h4>Ahorros Anuales</h4>
-                        <p style="font-size: 1.5em; color: #059669; font-weight: bold;">$10,500</p>
+                        <p style="font-size: clamp(1.2rem, 3vw, 1.5rem); color: #059669; font-weight: bold;">$10,500</p>
                     </div>
                     <div class="card" style="border-left-color: #059669; background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
                         <h4>ROI</h4>
-                        <p style="font-size: 1.5em; color: #059669; font-weight: bold;">894%</p>
+                        <p style="font-size: clamp(1.2rem, 3vw, 1.5rem); color: #059669; font-weight: bold;">894%</p>
                         <p>Recuperación en 1.2 meses</p>
                     </div>
                 </div>
@@ -858,19 +1025,19 @@
 
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">⏱️ Eficiencia</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">⏱️ Eficiencia</div>
                     <div>Automatización de procesos manuales</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">📋 Cumplimiento</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">📋 Cumplimiento</div>
                     <div>Reducción de riesgos regulatorios</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">🔍 Trazabilidad</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">🔍 Trazabilidad</div>
                     <div>Control total de visitantes</div>
                 </div>
                 <div class="benefit-item">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #065f46;">🌱 Sostenibilidad</div>
+                    <div style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: bold; color: #065f46;">🌱 Sostenibilidad</div>
                     <div>Eliminación de papel</div>
                 </div>
             </div>
@@ -937,6 +1104,13 @@
                 <h4>🎯 Recomendación</h4>
                 <p>Lo ideal no es iniciar con la inversión, ya que hay muchas opciones para iniciar de manera gratuita, incluido el plan piloto y despliegue, aclarar que no se requiere información confidencial de la empresa, solo se requiere documentación del proveedor.</p>
             </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 15px; display: inline-block; max-width: 100%;">
+                    <h3 style="margin: 0; color: white; font-size: clamp(1.2rem, 2.5vw, 1.5rem);">¡Gracias por su atención!</h3>
+                    <p style="margin: 5px 0 0 0; color: #cbd5e1; font-size: clamp(0.7rem, 1.2vw, 0.85rem); opacity: 0.8;">© 2025 Andrés Olaya - Andrés Porras</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -982,7 +1156,36 @@
                 changeSlide(-1);
             }
         });
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let endX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    changeSlide(1);
+                } else {
+                    // Swipe right - previous slide
+                    changeSlide(-1);
+                }
+            }
+        }
         
         showSlide(0);
     </script>
 </body>
+</html>
